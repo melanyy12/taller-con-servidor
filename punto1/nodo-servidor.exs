@@ -20,13 +20,13 @@ defmodule NodoServidor do
         send(productor, :fin)
 
       {productor, :carrera} ->
-        IO.puts("➡️  Enviando lista de autos al cliente...")
+        IO.puts("  Enviando lista de autos al cliente...")
         autos = Carrera.lista_autos()
         send(productor, {:autos, autos})
         procesar_mensajes()
 
       {productor, {:resultado, ranking}} ->
-        IO.puts("\n🏁 Resultado recibido del cliente:")
+        IO.puts("\n Resultado recibido del cliente:")
         Enum.each(ranking, fn {piloto, tiempo} ->
           IO.puts("  #{piloto} - #{tiempo} ms")
         end)

@@ -7,11 +7,11 @@ defmodule NodoCliente do
     IO.puts("SE INICIA EL CLIENTE")
     iniciar_nodo(@nodo_cliente)
     if Node.connect(@nodo_servidor) do
-      IO.puts("✅ Conectado al servidor.")
+      IO.puts(" Conectado al servidor.")
       send({@nombre_proceso, @nodo_servidor}, {self(), :carrera})
       esperar_mensajes()
     else
-      IO.puts("❌ No se pudo conectar con el servidor.")
+      IO.puts(" No se pudo conectar con el servidor.")
     end
   end
 
@@ -23,14 +23,14 @@ defmodule NodoCliente do
   defp esperar_mensajes() do
     receive do
       {:autos, autos} ->
-        IO.puts("🏎️  Recibida lista de autos, iniciando simulación...")
+        IO.puts("  Recibida lista de autos, iniciando simulación...")
         ranking = Carrera.carrera_concurrente(autos)
         send({@nombre_proceso, @nodo_servidor}, {self(), {:resultado, ranking}})
-        IO.puts("🏁 Carrera finalizada y resultados enviados.")
+        IO.puts(" Carrera finalizada y resultados enviados.")
         esperar_mensajes()
 
       :fin ->
-        IO.puts("🚪 Servidor finalizó la conexión.")
+        IO.puts(" Servidor finalizó la conexión.")
 
       otro ->
         IO.puts("Mensaje desconocido: #{inspect(otro)}")
